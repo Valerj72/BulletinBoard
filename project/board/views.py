@@ -1,18 +1,24 @@
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import permission_required
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, UpdateView
+
+from .models import User
 
 
-@permission_required('polls.add_choice', raise_exception=True)
-@login_required
-def my_view(request):
-
-    return HttpResponse(content={'count': count_var})
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'flatpages/index.html'
 
 
-class MyView(LoginRequiredMixin, View):
-    login_url = '/login/'
+class ConfirmUser(UpdateView):
+    model = User
+    context_object_name = 'user'
 
+    def post(self, request, *args, **kwargs):
+        if 'code' in request.POST:
+            code = request.POST['code']
+            user = User.objects.filter(code=code)
+            if user.exists():
+                user.update(is_active=True)
+                user.update(code=None)
 
-# Create your views here.
+        return redirect('account_login')

@@ -1,6 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
-from ckeditor.fields import RichTestField
+from django.contrib.auth.models import AbstractUser
+from ckeditor_uploader.fields import RichTextUploadingField
+
+
+class User(AbstractUser):
+    code = models.CharField(max_length=128, null=True, blank=True)
 
 # Create your models here.
 class Article(models.Model):
@@ -17,9 +21,10 @@ class Article(models.Model):
         ('spellmaster', 'Мастера заклинаний'),
     )
     author = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_creation = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=64)
     category = models.CharField(max_length=16, choices=TIPE, default='tank')
-    text = RichTestField()
+    text = models.TextField()
 
 
 class UserResponse(models.Model):
@@ -29,6 +34,4 @@ class UserResponse(models.Model):
     status = models.BooleanField(default=False)
 
 
-class NewUser(User):
-    status = models.BooleanField(default=False)
-    auth_code = models.CharField(max_length=128)
+
