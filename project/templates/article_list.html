@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}Все объявления{% endblock title %}
+
+ {% block content %}
+    <h2>Все объявления</h2>
+<table>
+<tr>
+    <td>Заголовок</td>
+    <td>Автор</td>
+    <td>Дата создания</td>
+    <td>Содержание</td>
+    <td>Категория</td>
+</tr>
+    {% for article in articles %}
+<tr>
+    <td>{{ article.title }}</td>
+    <td>{{ article.author }}</td>
+    <td>{{ article.date_creation }}</td>
+    <td>{{ article.text|safe }}</td>
+    <td>{{ article.get_category_display }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock content %}

@@ -15,11 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 from board.views import ProfileView
+from django.views.decorators.cache import never_cache
+from ckeditor_uploader.views import upload,browse
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +30,9 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path("board/", include("board.urls")),
     path('logout/', LogoutView.as_view()),
+    path('ckeditor', include('ckeditor_uploader.urls')),
+    re_path(r'upload/', login_required(upload), name='ckeditor_upload'),
+    re_path(r'browse/', login_required(never_cache(browse)), name='ckeditor_browse'),
 ]
 
 if settings.DEBUG:

@@ -3,8 +3,9 @@ from string import hexdigits
 from allauth.account.forms import SignupForm
 from django.conf import settings
 from django.core.mail import send_mail
+from django.forms import ModelForm
 
-
+from .models import Article
 
 
 class UserSignupForm(SignupForm):
@@ -21,3 +22,9 @@ class UserSignupForm(SignupForm):
             recipient_list=[user.email],
         )
         return user
+
+
+class ArticleForm(ModelForm):
+    class Meta:
+        model = Article
+        fields = ('title', 'text', 'category')

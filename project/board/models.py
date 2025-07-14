@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -20,11 +21,14 @@ class Article(models.Model):
         ('potion', 'Зельевары'),
         ('spellmaster', 'Мастера заклинаний'),
     )
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_creation = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=64)
     category = models.CharField(max_length=16, choices=TIPE, default='tank')
-    text = models.TextField()
+    text = RichTextUploadingField()
+
+    def get_absolute_url(self):
+        return reverse('article_detail', kwargs={'pk': self.pk})
 
 
 class UserResponse(models.Model):
