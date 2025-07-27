@@ -32,9 +32,9 @@ class Article(models.Model):
 
 
 class UserResponse(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='responses')
     status = models.BooleanField(default=False)
 
 

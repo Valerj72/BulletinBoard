@@ -3,9 +3,9 @@ from string import hexdigits
 from allauth.account.forms import SignupForm
 from django.conf import settings
 from django.core.mail import send_mail
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 
-from .models import Article
+from .models import Article, UserResponse
 
 
 class UserSignupForm(SignupForm):
@@ -28,3 +28,10 @@ class ArticleForm(ModelForm):
     class Meta:
         model = Article
         fields = ('title', 'text', 'category')
+
+
+class UserResponseForm(ModelForm):
+    class Meta:
+        model = UserResponse
+        fields = ('text',)
+        widgets = {'text': Textarea(attrs={'class': 'form-text', 'cols': 70, 'rows': 3})}

@@ -20,4 +20,23 @@
     <td>{{ article.get_category_display }}</td>
 </tr>
 </table>
+<h3>Добавить отклик:</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Добавить">
+</form>
+{% if article.responses.all %}
+<h3>Все отклики:</h3>
+{% for user_response in article.responses.all %}
+{% if user_response.status %}
+<p>{{ user_response.text }}</p>
+{% else %}
+<p>Содержание отклика будет доступно после его принятия автором объявления!</p>
+{% endif %}
+{% endfor %}
+{% else %}
+Пока откликов нет!
+{% endif %}
+
 {% endblock content %}
