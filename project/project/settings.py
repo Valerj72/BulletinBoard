@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 from ckeditor_demo.settings import CKEDITOR_UPLOAD_PATH
-from django.conf.global_settings import STATICFILES_DIRS, SILENCED_SYSTEM_CHECKS
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

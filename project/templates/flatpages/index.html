@@ -6,4 +6,38 @@
 
 {% block content %}
     <h3>Текущий авторизованный пользователь {{ user.username }}</h3>
+    <br>
+    <form action="" method="get">
+    {{ filterset.form.as_p }}
+        <input type="submit" value="Фильтровать">
+    </form>
+    <h2>Все отклики</h2>
+    {% if responses %}
+    <table>
+    <tr>
+        <td>Автор отклика</td>
+        <td>Текст отклика</td>
+        <td>На объявление</td>
+        <td>Статус</td>
+    </tr>
+    {% for response in responses %}
+        <tr>
+        <td>{{ response.author }}</td>
+        <td>{{ response.text }}</td>
+        <td>{{ response.article.title }}</td>
+            {% if response.status %}
+        <td>Принят</td>
+            {% else %}
+        <td>
+            Не принят
+            <a href="{% url 'response_accept' response.id %}" class="btn btn-success btn-sm">принять</a>
+            <a href="{% url 'response_delete' response.id %}" class="btn btn-danger btn-sm">удалить</a>
+        </td>
+            {% endif %}
+    </tr>
+    {% endfor %}
+    </table>
+    {% else %}
+        Еще нет ни одного отклика!
+    {% endif %}
 {% endblock content %}

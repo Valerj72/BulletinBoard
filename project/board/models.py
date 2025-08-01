@@ -30,6 +30,8 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'pk': self.pk})
 
+    def __str__(self):
+        return self.title
 
 class UserResponse(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
