@@ -100,7 +100,7 @@ def response_accept(request, pk):
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[response.author.email],
     )
-    return redirect
+    return redirect('/')
 
 def response_delete(request, pk):
     UserResponse.objects.get(pk=pk).delete()
